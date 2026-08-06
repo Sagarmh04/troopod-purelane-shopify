@@ -1,7 +1,7 @@
-﻿reference/
-docs/
-AGENTS.md
+﻿reference/*
+docs/*
 ASSIGNMENT.md
 IMPLEMENTATION_PLAN.md
 QA_CHECKLIST.md
 README.md
+release-notes.md
