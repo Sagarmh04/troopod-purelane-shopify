@@ -1,0 +1,96 @@
+{%- doc -%}
+  Renders Purelane product media using native Shopify featured media.
+
+  @param {product} product - The Shopify product whose media should be rendered.
+  @param {string} [id_suffix] - Unique suffix for fallback SVG IDs.
+
+  @example
+  {% render 'purelane-product-media', product: product, id_suffix: 'template-123' %}
+{%- enddoc -%}
+{%- liquid
+  assign featured_media = product.featured_media
+  assign preview_image = featured_media.preview_image
+  assign media_alt = featured_media.alt | default: product.title
+  assign bottle_gradient_id = 'purelane-fallback-bottle-' | append: id_suffix
+  assign label_gradient_id = 'purelane-fallback-label-' | append: id_suffix
+  assign max_width = 520
+  assign responsive_widths = ''
+
+  if preview_image != blank
+    if preview_image.width < max_width
+      assign max_width = preview_image.width
+    endif
+
+    assign width_candidates = '180,240,320,420,520' | split: ','
+    for width_candidate in width_candidates
+      assign candidate_number = width_candidate | plus: 0
+      if preview_image.width >= candidate_number
+        if responsive_widths != blank
+          assign responsive_widths = responsive_widths | append: ', '
+        endif
+        assign responsive_widths = responsive_widths | append: width_candidate
+      endif
+    endfor
+
+    if responsive_widths == blank
+      assign responsive_widths = max_width
+    endif
+  endif
+-%}
+
+<div class="purelane-product-card__media">
+  {%- if featured_media != blank and preview_image != blank -%}
+    {{
+      preview_image
+      | image_url: width: max_width
+      | image_tag:
+        widths: responsive_widths,
+        sizes: '(min-width: 1200px) 281px, (min-width: 860px) calc((100vw - 78px) / 4), calc((100vw - 50px) / 2)',
+        class: 'purelane-product-card__media-image',
+        alt: media_alt,
+        loading: 'lazy'
+    }}
+  {%- else -%}
+    <div class="purelane-product-card__fallback" aria-hidden="true">
+      <svg
+        class="purelane-product-card__fallback-svg"
+        viewBox="0 0 180 220"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        role="presentation"
+      >
+        <defs>
+          <linearGradient id="{{ bottle_gradient_id }}" x1="48" y1="36" x2="132" y2="190" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#7A67B9"></stop>
+            <stop offset="1" stop-color="#4B3A8F"></stop>
+          </linearGradient>
+          <linearGradient id="{{ label_gradient_id }}" x1="62" y1="108" x2="118" y2="158" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#FBF8FF" stop-opacity="0.96"></stop>
+            <stop offset="1" stop-color="#E8DFF7" stop-opacity="0.82"></stop>
+          </linearGradient>
+        </defs>
+        <ellipse cx="90" cy="198" rx="48" ry="10" fill="#120B24" fill-opacity="0.44"></ellipse>
+        <rect x="74" y="22" width="32" height="24" rx="10" fill="#8D7ACF" fill-opacity="0.95"></rect>
+        <rect x="79" y="42" width="22" height="18" rx="4" fill="#A494D8" fill-opacity="0.9"></rect>
+        <path
+          d="M58 76C58 64.95 66.95 56 78 56H102C113.05 56 122 64.95 122 76V170C122 182.15 112.15 192 100 192H80C67.85 192 58 182.15 58 170V76Z"
+          fill="url(#{{ bottle_gradient_id }})"
+        ></path>
+        <rect x="66" y="104" width="48" height="56" rx="8" fill="url(#{{ label_gradient_id }})"></rect>
+        <path d="M90 118C94.5 118 98.93 120.88 100.82 125.5C96.25 125.18 92.55 122.32 90 118Z" stroke="#F0A03C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M90 118C85.5 118 81.07 120.88 79.18 125.5C83.75 125.18 87.45 122.32 90 118Z" stroke="#F0A03C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+        <text x="90" y="141" text-anchor="middle" fill="#241A3D" font-family="Outfit, sans-serif" font-size="11" font-weight="800" letter-spacing="1.1">
+          PURELANE
+        </text>
+        <line x1="72" y1="148" x2="108" y2="148" stroke="#F0A03C" stroke-width="1.2" stroke-linecap="round"></line>
+        <text x="90" y="160" text-anchor="middle" fill="#5A4B92" font-family="Inter, sans-serif" font-size="7.2" font-weight="700" letter-spacing="1.4">
+          PRODUCT IMAGE
+        </text>
+        <text x="90" y="170" text-anchor="middle" fill="#7A6CA9" font-family="Inter, sans-serif" font-size="6.2" font-weight="600" letter-spacing="1.1">
+          COMING SOON
+        </text>
+        <rect x="70" y="84" width="7" height="84" rx="3.5" fill="#FFFFFF" fill-opacity="0.22"></rect>
+      </svg>
+    </div>
+  {%- endif -%}
+</div>

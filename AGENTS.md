@@ -1,4 +1,4 @@
-# AGENTS.md — Purelane Troopod Shopify Assignment
+# AGENTS.md â€” Purelane Troopod Shopify Assignment
 
 ## 0. Authority and precedence
 
@@ -11,6 +11,33 @@ These project-specific rules override generic guidance whenever there is a confl
 Rebuild `reference/purelane-homepage.html` as a production-quality Shopify homepage on the existing Dawn theme.
 
 The prototype is the visual and behavioural specification. Its HTML, CSS and JavaScript are reference implementation material only and must not be copied blindly.
+
+## Active Fast Sprint Mode
+
+1. The supplied prototype is the visual and motion specification.
+2. The final later light-colour stylesheet in the prototype is authoritative over earlier overridden styles.
+3. Human-visible visual fidelity is the primary acceptance criterion.
+4. Normal-mode animations must remain perceptibly faithful.
+5. Internal implementation may change for performance.
+6. The page must remain previewable throughout implementation.
+7. Completed sections must be mounted in `templates/index.json`.
+8. Work should proceed through all authorized subtasks without waiting for approval.
+9. Stop only for destructive, security, publishing, or genuine data blockers.
+10. Use real Shopify product, media, price, availability, variant, and cart data.
+11. Never hardcode commerce values that exist in Shopify.
+12. Marketing content may use merchant-editable section settings and blocks.
+13. Prefer modular sections, snippets, scoped CSS, and scoped controllers.
+14. Avoid one enormous Liquid, CSS, or JavaScript file.
+15. Shared rules belong in shared Purelane assets rather than being duplicated.
+16. Every interactive section must support theme-editor load and unload.
+17. All controllers must be idempotent and explicitly cleaned up.
+18. Do not modify `reference/purelane-homepage.html`.
+19. Do not publish.
+20. Do not commit or push unless explicitly instructed.
+21. Run Theme Check and inspect Git changes at the end.
+22. Do not spend repeated cycles polishing invisible technical details before a complete visual page exists.
+23. Complete the mandatory sections first, then complete bonus sections in the same sprint.
+24. The end of a sprint must produce a visible integrated page, not isolated unused files.
 
 ## 2. Mandatory scope
 
@@ -403,8 +430,8 @@ Inspect evidence first. If evidence is missing, clearly request the exact file o
 
 ## 23. Current phase
 
-The project is in analysis and architecture mode.
+The project is in full implementation sprint mode.
 
-Do not implement theme sections until explicit human approval.
+Complete the integrated homepage continuously within the authorized scope.
 
-The first Codex task is analysis-only.
+Mount completed sections in `templates/index.json` so the preview remains visibly usable throughout the sprint.

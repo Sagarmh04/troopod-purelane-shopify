@@ -1,0 +1,155 @@
+{{ 'purelane-shared.css' | asset_url | stylesheet_tag }}
+{{ 'purelane-shop.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'purelane-shop.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign collection = section.settings.collection
+  assign has_collection = false
+  assign has_products = false
+  assign section_heading_id = 'PurelaneShopHeading-' | append: section.id
+
+  if collection != blank
+    assign has_collection = true
+    if collection.products_count > 0
+      assign has_products = true
+    endif
+  endif
+-%}
+
+{%- if has_products or request.design_mode -%}
+  <section
+    id="shop"
+    class="purelane-shop"
+    data-purelane-shop
+    data-purelane-shop-root="PurelaneShop-{{ section.id }}"
+    data-purelane-anchor="shop"
+    data-scene="3"
+    data-section-id="{{ section.id }}"
+    data-enable-reveal="{{ section.settings.enable_reveal }}"
+    {% if section.settings.enable_reveal and request.design_mode == false %}
+      data-reveal-ready="true"
+    {% endif %}
+    {% if section.settings.heading != blank %}
+      aria-labelledby="{{ section_heading_id }}"
+    {% else %}
+      aria-label="Shop products"
+    {% endif %}
+  >
+    <div class="purelane-content">
+      <div class="purelane-shop__panel-head purelane-reveal" data-purelane-reveal>
+        {%- if section.settings.kicker != blank -%}
+          <p class="purelane-kicker">{{ section.settings.kicker | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 id="{{ section_heading_id }}" class="purelane-heading">
+            {{ section.settings.heading | escape }}
+          </h2>
+        {%- endif -%}
+        <div class="purelane-shop__rule" aria-hidden="true">
+          <span></span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"></path>
+            <path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"></path>
+          </svg>
+          <span></span>
+        </div>
+      </div>
+
+      {%- if has_products -%}
+        <ul class="purelane-shop__grid" role="list">
+          {%- for product in collection.products limit: section.settings.products_to_show -%}
+            <li class="purelane-shop__grid-item">
+              {% render 'purelane-product-card',
+                product: product,
+                section_id: section.id,
+                show_badges: section.settings.show_badges,
+                show_ratings: section.settings.show_ratings,
+                reveal_index: forloop.index0
+              %}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- elsif request.design_mode -%}
+        <div class="purelane-shop__empty purelane-glass purelane-reveal is-visible" data-purelane-reveal>
+          {%- if has_collection -%}
+            <p>No products are available in the selected collection.</p>
+          {%- else -%}
+            <p>Select a collection to populate the Purelane shop grid.</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </section>
+  <noscript>
+    <style>
+      [data-purelane-shop-root="PurelaneShop-{{ section.id }}"] .purelane-reveal {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+    </style>
+  </noscript>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Purelane shop grid",
+  "tag": "div",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 8,
+      "label": "Product limit"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "default": "Bestsellers",
+      "label": "Kicker"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Loved by 30,000 homes",
+      "label": "Heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badges",
+      "default": true,
+      "label": "Show badges"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ratings",
+      "default": true,
+      "label": "Show ratings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_reveal",
+      "default": true,
+      "label": "Enable reveal animation"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane shop grid"
+    }
+  ]
+}
+{% endschema %}

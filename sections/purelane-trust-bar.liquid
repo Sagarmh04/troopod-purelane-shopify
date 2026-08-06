@@ -1,0 +1,39 @@
+<section class="sec" data-scene="4">
+  <div class="wrap">
+    <div class="glass trust rv">
+      {%- for block in section.blocks -%}
+        {%- assign parts = block.settings.title | split: '|' -%}
+        <div class="trust-i" {{ block.shopify_attributes }}>
+          {% render 'purelane-icon', name: block.settings.icon %}
+          <span>{{ parts[0] | escape }}<br>{{ parts[1] | escape }}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane trust bar",
+  "tag": "div",
+  "class": "section",
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust item",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Two-line title", "default": "Plant derived|formulas" },
+        { "type": "select", "id": "icon", "label": "Icon", "default": "leaf", "options": [
+          { "value": "leaf", "label": "Leaf" },
+          { "value": "recycle", "label": "Recycle" },
+          { "value": "heart", "label": "Heart" },
+          { "value": "globe", "label": "Globe" }
+        ] }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Purelane trust bar" }
+  ]
+}
+{% endschema %}

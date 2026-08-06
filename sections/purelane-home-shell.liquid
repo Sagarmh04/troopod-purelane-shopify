@@ -1,0 +1,125 @@
+{{ 'purelane-home.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'purelane-home.js' | asset_url }}" defer="defer"></script>
+
+<div id="PurelaneShell-{{ section.id }}" data-purelane-controller="shell" data-section-id="{{ section.id }}" data-purelane-home-shell>
+  <div class="scenes" data-purelane-scene-root data-d="1">
+    <div class="scene s1 on"></div>
+    <div class="scene s2"></div>
+    <div class="scene s3"></div>
+    <div class="scene s4"></div>
+    <div class="water">
+      <div class="wl wl-a"><svg class="sv" viewBox="0 0 1200 800" preserveAspectRatio="none"><defs><radialGradient id="purelane-water-a" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="#fff" stop-opacity=".92"></stop><stop offset="40%" stop-color="#fff" stop-opacity=".46"></stop><stop offset="100%" stop-color="#fff" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="360" cy="160" rx="280" ry="110" fill="url(#purelane-water-a)"></ellipse><ellipse cx="840" cy="240" rx="330" ry="120" fill="url(#purelane-water-a)"></ellipse><ellipse cx="620" cy="560" rx="460" ry="150" fill="url(#purelane-water-a)"></ellipse></svg></div>
+      <div class="wl wl-b"><svg class="sv" viewBox="0 0 1200 800" preserveAspectRatio="none"><defs><radialGradient id="purelane-water-b" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#fff" stop-opacity=".44"></stop><stop offset="100%" stop-color="#fff" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="240" cy="520" rx="220" ry="100" fill="url(#purelane-water-b)"></ellipse><ellipse cx="980" cy="440" rx="260" ry="110" fill="url(#purelane-water-b)"></ellipse></svg></div>
+      <div class="wl wl-c"><svg class="sv" viewBox="0 0 1200 800" preserveAspectRatio="none"><path d="M0 120C220 180 360 70 580 120S940 250 1200 180V0H0Z" fill="rgba(255,255,255,.28)"></path></svg></div>
+      <div class="wl wl-s"><svg class="sv" viewBox="0 0 1200 800" preserveAspectRatio="none"><path d="M0 96c170 40 330-10 520 34s390 90 680 18V0H0Z" fill="rgba(255,255,255,.24)"></path></svg></div>
+      <div class="bub">
+        <span style="--x:91.9%;--s:6.7px;--dur:21.5s;--dly:19s;--drift:-11px"></span><span style="--x:43.4%;--s:5.7px;--dur:26.8s;--dly:16.1s;--drift:-11px"></span><span style="--x:96.6%;--s:6.2px;--dur:13.7s;--dly:10.3s;--drift:38px"></span><span style="--x:6%;--s:3.6px;--dur:24.4s;--dly:10.6s;--drift:3px"></span><span style="--x:70.3%;--s:3.3px;--dur:20.9s;--dly:9.2s;--drift:-39px"></span><span style="--x:67.7%;--s:4px;--dur:27s;--dly:16.5s;--drift:-5px"></span><span style="--x:2.1%;--s:7.1px;--dur:22s;--dly:3.1s;--drift:-37px"></span><span style="--x:69.4%;--s:8.1px;--dur:21.9s;--dly:10.7s;--drift:-24px"></span><span style="--x:64.1%;--s:8.2px;--dur:17.3s;--dly:9s;--drift:2px"></span><span style="--x:21.8%;--s:7.1px;--dur:15.7s;--dly:18.4s;--drift:-13px"></span><span style="--x:61.9%;--s:6.6px;--dur:26.3s;--dly:7.2s;--drift:-23px"></span><span style="--x:45.9%;--s:8.9px;--dur:24.3s;--dly:7.2s;--drift:20px"></span><span style="--x:52.5%;--s:3.3px;--dur:20.2s;--dly:19.6s;--drift:-31px"></span><span style="--x:11.1%;--s:7.9px;--dur:20.4s;--dly:10.8s;--drift:-40px"></span><span style="--x:7.6%;--s:6.4px;--dur:19.5s;--dly:.2s;--drift:-26px"></span><span style="--x:18.6%;--s:9px;--dur:24.5s;--dly:8.7s;--drift:13px"></span>
+      </div>
+    </div>
+    <div class="vig"></div>
+  </div>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="track">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'ticker_item' -%}
+          <span>{{ block.settings.text | escape }} <b>{{ block.settings.highlight | escape }}</b></span>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'ticker_item' -%}
+          <span>{{ block.settings.text | escape }} <b>{{ block.settings.highlight | escape }}</b></span>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <header class="purelane-header" data-purelane-nav-root>
+    <div class="navpill glass">
+      <a class="brand" href="#top" aria-label="Purelane home">
+        <span class="mark">{% render 'purelane-icon', name: 'box' %}</span>
+        <span class="txt"><span class="n1">{{ section.settings.brand_name | escape }}</span><span class="n2">{{ section.settings.brand_tagline | escape }}</span></span>
+      </a>
+      <nav id="PurelaneNav-{{ section.id }}" class="nav" aria-label="Main">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'nav_link' -%}
+            <a href="{{ block.settings.href | escape }}">{{ block.settings.label | escape }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+      <div class="navtools">
+        <a class="ico hide-s" href="{{ routes.search_url }}" aria-label="Search">{% render 'purelane-icon', name: 'search' %}</a>
+        <a class="ico hide-s" href="{{ routes.account_url }}" aria-label="Account">{% render 'purelane-icon', name: 'account' %}</a>
+        <a class="ico cart-ico" href="{{ routes.cart_url }}" aria-label="Cart, {{ cart.item_count }} items" data-purelane-cart-link>{% render 'purelane-icon', name: 'cart' %}<span class="dot" data-purelane-cart-count aria-hidden="true">{{ cart.item_count }}</span></a>
+        <button
+          class="ico burger"
+          type="button"
+          aria-label="Menu"
+          aria-controls="PurelaneNav-{{ section.id }}"
+          aria-expanded="false"
+          data-purelane-nav-toggle
+        >
+          {% render 'purelane-icon', name: 'menu' %}
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="rail" aria-label="Section progress">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'progress_link' -%}
+        <a href="{{ block.settings.href | escape }}"{% if forloop.first %} class="on"{% endif %} aria-label="{{ block.settings.label | escape }}"></a>
+      {%- endif -%}
+    {%- endfor -%}
+  </nav>
+
+  <div class="sticky">
+    <span class="lbl"><b>{{ section.settings.sticky_heading | escape }}</b><span>{{ section.settings.sticky_subheading | escape }}</span></span>
+    <a class="btn btn-primary btn-sm" href="{{ section.settings.sticky_link | escape }}">{{ section.settings.sticky_label | escape }}</a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Purelane home shell",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "brand_name", "label": "Brand name", "default": "Purelane" },
+    { "type": "text", "id": "brand_tagline", "label": "Brand tagline", "default": "Clean, simply" },
+    { "type": "text", "id": "sticky_heading", "label": "Sticky heading", "default": "Pick any 3, pay ₹499" },
+    { "type": "text", "id": "sticky_subheading", "label": "Sticky subheading", "default": "Free shipping, always" },
+    { "type": "text", "id": "sticky_label", "label": "Sticky button label", "default": "Build bundle" },
+    { "type": "url", "id": "sticky_link", "label": "Sticky button link" }
+  ],
+  "blocks": [
+    {
+      "type": "ticker_item",
+      "name": "Ticker item",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping" },
+        { "type": "text", "id": "highlight", "label": "Highlight", "default": "on every bundle across India" }
+      ]
+    },
+    {
+      "type": "nav_link",
+      "name": "Nav link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Home" },
+        { "type": "text", "id": "href", "label": "Anchor href", "default": "#top" }
+      ]
+    },
+    {
+      "type": "progress_link",
+      "name": "Progress link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Hero" },
+        { "type": "text", "id": "href", "label": "Anchor href", "default": "#top" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Purelane home shell" }
+  ]
+}
+{% endschema %}

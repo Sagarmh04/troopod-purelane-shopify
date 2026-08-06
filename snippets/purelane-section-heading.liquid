@@ -1,0 +1,42 @@
+{%- doc -%}
+  Renders a reusable Purelane section heading group.
+
+  @param {string} [kicker]
+  @param {string} heading
+  @param {string} [body]
+  @param {string} [heading_tag]
+  @param {string} [class_name]
+  @param {boolean} [show_rule]
+{%- enddoc -%}
+{%- liquid
+  assign tag_name = heading_tag | default: 'h2'
+  assign wrapper_class = class_name | default: 'panel-head'
+  assign should_show_rule = show_rule
+
+  if should_show_rule == nil
+    assign should_show_rule = true
+  endif
+-%}
+<div class="{{ wrapper_class }}">
+  {%- if kicker != blank -%}
+    <span class="kicker">{{ kicker | escape }}</span>
+  {%- endif -%}
+  <{{ tag_name }} class="d2"{% if kicker != blank %} style="margin-top:12px"{% endif %}>
+    {{ heading | escape | newline_to_br }}
+  </{{ tag_name }}>
+  {%- if body != blank -%}
+    <p class="lede"{% if should_show_rule %} style="margin:14px auto 0"{% endif %}>
+      {{ body | escape }}
+    </p>
+  {%- endif -%}
+  {%- if should_show_rule -%}
+    <div class="rule">
+      <i></i>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"></path>
+        <path d="M12 21C12 14.5 8.5 10 4 8.5C4 15 7.5 20 12 21Z"></path>
+      </svg>
+      <i></i>
+    </div>
+  {%- endif -%}
+</div>

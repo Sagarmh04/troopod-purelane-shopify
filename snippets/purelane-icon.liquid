@@ -1,0 +1,51 @@
+{%- doc -%}
+  Renders a named Purelane SVG icon.
+
+  @param {string} name
+{%- enddoc -%}
+{%- case name -%}
+  {%- when 'leaf' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"></path><path d="M12 21C12 14.5 8.5 10 4 8.5C4 15 7.5 20 12 21Z"></path></svg>
+  {%- when 'shield' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"></path><path d="m9 12 2.2 2.2L15.4 10"></path></svg>
+  {%- when 'no-harsh' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"></circle><path d="M6.4 17.6 17.6 6.4"></path></svg>
+  {%- when 'bubbles' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8.5" r="3.2"></circle><circle cx="16.4" cy="6.6" r="2.2"></circle><circle cx="15" cy="13" r="2.8"></circle><circle cx="8.6" cy="15.6" r="2.1"></circle><path d="M4 21h16"></path></svg>
+  {%- when 'heart' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 8a4.1 4.1 0 0 1 7 2.6c0 5-7 9.4-7 9.4Z"></path></svg>
+  {%- when 'money' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"></path><path d="M16.5 7.2C15.6 6 14 5.4 12 5.4c-2.4 0-4 1.1-4 2.9 0 2 1.7 2.7 4.2 3.3 2.7.6 4.3 1.4 4.3 3.4 0 1.9-1.7 3.1-4.5 3.1-2.2 0-3.8-.7-4.8-2"></path></svg>
+  {%- when 'box-check' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3.4"></rect><path d="m8.4 12.2 2.4 2.4 4.8-5"></path></svg>
+  {%- when 'star' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L3.6 9.7l5.8-.8Z"></path></svg>
+  {%- when 'truck' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 16.4V7.2h10.2v9.2"></path><path d="M12.8 10.4h4l3.6 3.2v2.8h-7.6"></path><circle cx="6.6" cy="18" r="1.9"></circle><circle cx="16.6" cy="18" r="1.9"></circle></svg>
+  {%- when 'recycle' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"></path><path d="M4 8 6.5 3h11L20 8"></path><path d="M9.5 12h5"></path></svg>
+  {%- when 'globe' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"></circle><path d="M3.4 12h17.2"></path><path d="M12 3.4c2.4 2.4 3.6 5.4 3.6 8.6S14.4 18.2 12 20.6c-2.4-2.4-3.6-5.4-3.6-8.6S9.6 5.8 12 3.4Z"></path></svg>
+  {%- when 'check' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"></path></svg>
+  {%- when 'search' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+  {%- when 'account' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"></circle><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6"></path></svg>
+  {%- when 'cart' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h2l2.2 10.4a1.6 1.6 0 0 0 1.6 1.3h7.6a1.6 1.6 0 0 0 1.6-1.3L20.5 9H6.4"></path><circle cx="10" cy="20.5" r="1.1"></circle><circle cx="17.5" cy="20.5" r="1.1"></circle></svg>
+  {%- when 'menu' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8h16M4 16h16"></path></svg>
+  {%- when 'box' -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20.5 8v8L12 21 3.5 16V8L12 3Z"></path><path d="M12 12 20.5 8M12 12v9M12 12 3.5 8"></path></svg>
+  {%- when 'coconut' -%}
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="62" r="25"></circle><path d="M31 53c9-6 29-6 38 0" stroke="#b8701c"></path><path d="M41 63c4 8 14 8 18 0" opacity=".55"></path><path d="M50 37V25"></path><path d="M50 27C42 18 30 16 21 21c5 10 17 13 29 6Z" stroke="#b8701c"></path><path d="M50 27c8-9 20-11 29-6-5 10-17 13-29 6Z" stroke="#b8701c"></path></svg>
+  {%- when 'orange' -%}
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="45" cy="58" r="23"></circle><path d="M45 35v46M22 58h46" opacity=".4"></path><path d="M29 42 61 74M61 42 29 74" opacity=".26"></path><path d="M62 28c13-1 20 10 15 20-4 8-15 9-19 2" stroke="#b8701c"></path><path d="M45 34c-3-8 2-15 10-16 1 9-3 15-10 16Z" stroke="#b8701c"></path></svg>
+  {%- when 'soapnut' -%}
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="36" cy="66" r="16"></circle><circle cx="64" cy="69" r="14"></circle><circle cx="50" cy="43" r="14"></circle><path d="M50 29V17"></path><path d="M50 21c-8-8-18-8-23-2 7 8 17 10 23 2Z" stroke="#b8701c"></path><path d="M31 60a5 5 0 0 1 4-4" opacity=".6"></path><path d="M46 38a5 5 0 0 1 4-4" opacity=".6"></path></svg>
+  {%- when 'neem' -%}
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 82C36 66 58 44 82 20" stroke="#b8701c"></path><path d="M27 73c-6-7-4-15 3-18 4 7 3 14-3 18Z"></path><path d="M31 69c8-4 15 0 16 8-8 2-14-1-16-8Z"></path><path d="M41 59c-6-7-4-16 3-19 4 7 3 15-3 19Z"></path><path d="M45 55c9-4 16 0 17 8-8 2-15-1-17-8Z"></path><path d="M56 44c-6-7-4-16 3-19 4 7 3 15-3 19Z"></path><path d="M60 40c9-4 16 0 17 8-8 2-15-1-17-8Z"></path><path d="M70 30c-5-7-3-15 4-18 3 7 2 14-4 18Z"></path></svg>
+  {%- when 'lemongrass' -%}
+    <svg viewBox="0 0 100 100" fill="none"><g fill="currentColor" opacity=".88"><path d="M50 88C44 62 39 42 24 15c15 27 22 47 29 73Z"></path><path d="M52 88C50 60 50 39 44 9c11 29 13 50 12 79Z"></path><path d="M54 88C56 60 60 40 74 13c-11 28-15 48-16 75Z"></path><path d="M56 88C60 64 68 48 86 27c-14 22-21 38-26 61Z"></path><path d="M48 88C44 66 36 50 18 30c14 21 22 36 27 58Z"></path></g><path d="M50 88h6" stroke="#b8701c" stroke-width="2.4" stroke-linecap="round"></path></svg>
+{%- endcase -%}

@@ -281,6 +281,10 @@
     {{ 'base.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
+    {%- if settings.cart_type == 'notification' and template.name == 'index' -%}
+      {{ 'component-cart-notification.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+
     {%- if settings.cart_type == 'drawer' -%}
       {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
       {{ 'component-cart.css' | asset_url | stylesheet_tag }}
@@ -321,7 +325,13 @@
     </script>
   </head>
 
-  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+  {%- liquid
+    assign is_purelane_homepage = false
+    if template.name == 'index'
+      assign is_purelane_homepage = true
+    endif
+  -%}
+  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}{% if is_purelane_homepage %} purelane-homepage{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -329,8 +339,16 @@
     {%- if settings.cart_type == 'drawer' -%}
       {%- render 'cart-drawer' -%}
     {%- endif -%}
+    {%- if is_purelane_homepage and settings.cart_type == 'notification' -%}
+      {%- render 'cart-notification' -%}
+    {%- endif -%}
+    {%- if is_purelane_homepage and settings.cart_type != 'page' -%}
+      <div id="cart-icon-bubble" hidden aria-hidden="true"></div>
+    {%- endif -%}
 
-    {% sections 'header-group' %}
+    {%- unless is_purelane_homepage -%}
+      {% sections 'header-group' %}
+    {%- endunless -%}
 
     <main
       id="MainContent"
@@ -342,7 +360,9 @@
       {{ content_for_layout }}
     </main>
 
-    {% sections 'footer-group' %}
+    {%- unless is_purelane_homepage -%}
+      {% sections 'footer-group' %}
+    {%- endunless -%}
 
     <ul hidden>
       <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
@@ -400,6 +420,9 @@
 
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    {%- if is_purelane_homepage and settings.cart_type == 'notification' -%}
+      <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
   </body>
 </html>

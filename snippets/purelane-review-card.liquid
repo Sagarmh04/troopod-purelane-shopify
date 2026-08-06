@@ -1,0 +1,19 @@
+{%- doc -%}
+  Renders a Purelane review marquee card.
+
+  @param {block} block
+{%- enddoc -%}
+<article class="glass-2 rcard">
+  <div class="st" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+  <h5>{{ block.settings.title | escape }}</h5>
+  <p>{{ block.settings.body | escape }}</p>
+  <div class="who">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="m5 13 4 4L19 7"></path>
+    </svg>
+    <b>{{ block.settings.author | escape }}</b>
+    {%- if block.settings.context != blank -%}
+      <span>&middot; {{ block.settings.context | escape }}</span>
+    {%- endif -%}
+  </div>
+</article>

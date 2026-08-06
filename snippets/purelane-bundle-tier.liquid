@@ -1,0 +1,125 @@
+{%- doc -%}
+  Renders a Purelane bundle tier card.
+
+  @param {block} block
+  @param {product} [product_1]
+  @param {product} [product_2]
+  @param {product} [product_3]
+  @param {product} [product_4]
+  @param {product} [product_5]
+{%- enddoc -%}
+{%- liquid
+  assign total_price = 0
+  assign total_compare_at = 0
+  assign highlight_class = ''
+  assign button_class = 'btn btn-ghost'
+
+  if block.settings.highlight
+    assign highlight_class = ' best'
+    assign button_class = 'btn btn-primary'
+  endif
+
+  if block.settings.quantity >= 1 and product_1 != blank
+    assign variant = product_1.selected_or_first_available_variant
+    assign total_price = total_price | plus: variant.price
+    if variant.compare_at_price > variant.price
+      assign total_compare_at = total_compare_at | plus: variant.compare_at_price
+    else
+      assign total_compare_at = total_compare_at | plus: variant.price
+    endif
+  endif
+  if block.settings.quantity >= 2 and product_2 != blank
+    assign variant = product_2.selected_or_first_available_variant
+    assign total_price = total_price | plus: variant.price
+    if variant.compare_at_price > variant.price
+      assign total_compare_at = total_compare_at | plus: variant.compare_at_price
+    else
+      assign total_compare_at = total_compare_at | plus: variant.price
+    endif
+  endif
+  if block.settings.quantity >= 3 and product_3 != blank
+    assign variant = product_3.selected_or_first_available_variant
+    assign total_price = total_price | plus: variant.price
+    if variant.compare_at_price > variant.price
+      assign total_compare_at = total_compare_at | plus: variant.compare_at_price
+    else
+      assign total_compare_at = total_compare_at | plus: variant.price
+    endif
+  endif
+  if block.settings.quantity >= 4 and product_4 != blank
+    assign variant = product_4.selected_or_first_available_variant
+    assign total_price = total_price | plus: variant.price
+    if variant.compare_at_price > variant.price
+      assign total_compare_at = total_compare_at | plus: variant.compare_at_price
+    else
+      assign total_compare_at = total_compare_at | plus: variant.price
+    endif
+  endif
+  if block.settings.quantity >= 5 and product_5 != blank
+    assign variant = product_5.selected_or_first_available_variant
+    assign total_price = total_price | plus: variant.price
+    if variant.compare_at_price > variant.price
+      assign total_compare_at = total_compare_at | plus: variant.compare_at_price
+    else
+      assign total_compare_at = total_compare_at | plus: variant.price
+    endif
+  endif
+
+  assign per_product_price = 0
+  if block.settings.quantity > 0 and total_price > 0
+    assign per_product_price = total_price | divided_by: block.settings.quantity
+  endif
+-%}
+<article class="glass tier{{ highlight_class }}">
+  {%- if block.settings.tag != blank -%}
+    <span class="tag">{{ block.settings.tag | escape }}</span>
+  {%- endif -%}
+  <div class="tierpix{% if block.settings.quantity >= 5 %} five{% endif %}" aria-hidden="true">
+    {%- if block.settings.quantity >= 1 and product_1 != blank -%}
+      {% render 'purelane-product-figure', product: product_1, class_name: 'pimg', sizes: '(min-width: 1024px) 100px, 72px', widths: '120, 180, 240', decorative: true %}
+    {%- endif -%}
+    {%- if block.settings.quantity >= 2 and product_2 != blank -%}
+      {% render 'purelane-product-figure', product: product_2, class_name: 'pimg', sizes: '(min-width: 1024px) 100px, 72px', widths: '120, 180, 240', decorative: true %}
+    {%- endif -%}
+    {%- if block.settings.quantity >= 3 and product_3 != blank -%}
+      {% render 'purelane-product-figure', product: product_3, class_name: 'pimg', sizes: '(min-width: 1024px) 100px, 72px', widths: '120, 180, 240', decorative: true %}
+    {%- endif -%}
+    {%- if block.settings.quantity >= 4 and product_4 != blank -%}
+      {% render 'purelane-product-figure', product: product_4, class_name: 'pimg', sizes: '(min-width: 1024px) 100px, 72px', widths: '120, 180, 240', decorative: true %}
+    {%- endif -%}
+    {%- if block.settings.quantity >= 5 and product_5 != blank -%}
+      {% render 'purelane-product-figure', product: product_5, class_name: 'pimg', sizes: '(min-width: 1024px) 100px, 72px', widths: '120, 180, 240', decorative: true %}
+    {%- endif -%}
+  </div>
+  <div class="qty">{{ block.settings.quantity }}<small>Products</small></div>
+  <div class="price">
+    {{ total_price | money }}
+    {%- if total_compare_at > total_price -%}
+      <s>{{ total_compare_at | money }}</s>
+    {%- endif -%}
+  </div>
+  {%- if per_product_price > 0 -%}
+    <p class="body-s tier-note">Flat {{ per_product_price | money }} per product</p>
+  {%- elsif block.settings.body != blank -%}
+    <p class="body-s tier-note">{{ block.settings.body | escape }}</p>
+  {%- endif -%}
+  <ul>
+    {%- if block.settings.benefit_1 != blank -%}
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"></path></svg>{{ block.settings.benefit_1 | escape }}</li>
+    {%- endif -%}
+    {%- if block.settings.benefit_2 != blank -%}
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"></path></svg>{{ block.settings.benefit_2 | escape }}</li>
+    {%- endif -%}
+    {%- if block.settings.benefit_3 != blank -%}
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"></path></svg>{{ block.settings.benefit_3 | escape }}</li>
+    {%- endif -%}
+  </ul>
+  <a class="{{ button_class }}" href="{{ block.settings.link | default: '#shop' }}">
+    {{ block.settings.label | escape }}
+    {%- if block.settings.highlight -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h13m-5-6 6 6-6 6"></path>
+      </svg>
+    {%- endif -%}
+  </a>
+</article>

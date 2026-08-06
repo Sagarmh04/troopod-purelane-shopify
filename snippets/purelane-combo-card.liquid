@@ -1,0 +1,112 @@
+{%- doc -%}
+  Renders a Purelane combo card.
+
+  @param {block} block
+  @param {product} product_a
+  @param {product} product_b
+  @param {product} [product_c]
+{%- enddoc -%}
+{%- liquid
+  assign highlight_class = ''
+  assign button_class = 'btn btn-ghost'
+  assign total_price = 0
+  assign total_compare_at = 0
+
+  if block.settings.highlight
+    assign highlight_class = ' hero-combo'
+    assign button_class = 'btn btn-primary'
+  endif
+  if product_a != blank
+    assign selected_variant = product_a.selected_or_first_available_variant
+    assign total_price = total_price | plus: selected_variant.price
+    if selected_variant.compare_at_price > selected_variant.price
+      assign total_compare_at = total_compare_at | plus: selected_variant.compare_at_price
+    else
+      assign total_compare_at = total_compare_at | plus: selected_variant.price
+    endif
+  endif
+  if product_b != blank
+    assign selected_variant = product_b.selected_or_first_available_variant
+    assign total_price = total_price | plus: selected_variant.price
+    if selected_variant.compare_at_price > selected_variant.price
+      assign total_compare_at = total_compare_at | plus: selected_variant.compare_at_price
+    else
+      assign total_compare_at = total_compare_at | plus: selected_variant.price
+    endif
+  endif
+  if product_c != blank
+    assign selected_variant = product_c.selected_or_first_available_variant
+    assign total_price = total_price | plus: selected_variant.price
+    if selected_variant.compare_at_price > selected_variant.price
+      assign total_compare_at = total_compare_at | plus: selected_variant.compare_at_price
+    else
+      assign total_compare_at = total_compare_at | plus: selected_variant.price
+    endif
+  endif
+-%}
+{%- assign savings = total_compare_at | minus: total_price -%}
+<article class="glass combo{{ highlight_class }}">
+  <div class="tray">
+    {%- if block.settings.save_label != blank -%}
+      <span class="save">{{ block.settings.save_label | escape }}</span>
+    {%- elsif savings > 0 -%}
+      <span class="save">You save {{ savings | money }}</span>
+    {%- endif -%}
+    {%- if block.settings.flag != blank -%}
+      <span class="flag">{{ block.settings.flag | escape }}</span>
+    {%- endif -%}
+    <div class="stack">
+      {%- if product_a != blank -%}
+        <span class="it">
+          {%- if block.settings.item_visual_1 == 'tile_leaf' -%}
+            <span class="tile">{% render 'purelane-icon', name: 'leaf' %}</span>
+          {%- else -%}
+            {% render 'purelane-product-figure', product: product_a, class_name: 'pimg', sizes: '(min-width: 1024px) 100px, 84px', widths: '120, 180, 240', decorative: true %}
+          {%- endif -%}
+          <span>{{ block.settings.item_copy_1 | default: product_a.title | escape }}</span>
+        </span>
+      {%- endif -%}
+      {%- if product_b != blank -%}
+        <span class="plus" aria-hidden="true">+</span>
+        <span class="it">
+          {%- if block.settings.item_visual_2 == 'tile_leaf' -%}
+            <span class="tile">{% render 'purelane-icon', name: 'leaf' %}</span>
+          {%- else -%}
+            {% render 'purelane-product-figure', product: product_b, class_name: 'pimg', sizes: '(min-width: 1024px) 100px, 84px', widths: '120, 180, 240', decorative: true %}
+          {%- endif -%}
+          <span>{{ block.settings.item_copy_2 | default: product_b.title | escape }}</span>
+        </span>
+      {%- endif -%}
+      {%- if product_c != blank -%}
+        <span class="plus" aria-hidden="true">+</span>
+        <span class="it">
+          {%- if block.settings.item_visual_3 == 'tile_leaf' -%}
+            <span class="tile">{% render 'purelane-icon', name: 'leaf' %}</span>
+          {%- else -%}
+            {% render 'purelane-product-figure', product: product_c, class_name: 'pimg', sizes: '(min-width: 1024px) 100px, 84px', widths: '120, 180, 240', decorative: true %}
+          {%- endif -%}
+          <span>{{ block.settings.item_copy_3 | default: product_c.title | escape }}</span>
+        </span>
+      {%- endif -%}
+    </div>
+  </div>
+  <div class="body">
+    <h3>{{ block.settings.title | escape }}</h3>
+    <div class="cnt">{{ block.settings.count_label | escape }}</div>
+    <p class="inc">{{ block.settings.body | escape }}</p>
+    <div class="prow">
+      <strong>{{ total_price | money }}</strong>
+      {%- if total_compare_at > total_price -%}
+        <s>{{ total_compare_at | money }}</s>
+        <em>Save {{ savings | money }}</em>
+      {%- endif -%}
+    </div>
+    <div class="fine">Inclusive of all taxes &middot; COD available</div>
+    <a class="{{ button_class }}" href="{{ block.settings.cta_link | default: '#shop' }}">
+      {{ block.settings.cta_label | escape }}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h13m-5-6 6 6-6 6"></path>
+      </svg>
+    </a>
+  </div>
+</article>

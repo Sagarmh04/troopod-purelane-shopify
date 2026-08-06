@@ -1,0 +1,49 @@
+<section class="sec revband" id="reviews" data-scene="1">
+  <div class="wrap">
+    <div class="revhead rv">
+      <span class="kicker">{{ section.settings.kicker | escape }}</span>
+      <span class="agg"><span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <b>{{ section.settings.aggregate_text | escape }}</b> {{ section.settings.aggregate_suffix | escape }}</span>
+      <span class="agg">{{ section.settings.homes_text | escape }} <b>{{ section.settings.homes_highlight | escape }}</b> {{ section.settings.homes_suffix | escape }}</span>
+    </div>
+  </div>
+  <div class="revrail rv" aria-label="Customer reviews">
+    <div class="revtrack">
+      {%- for _ in (1..2) -%}
+        {%- for block in section.blocks -%}
+          {% render 'purelane-review-card', block: block %}
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane reviews rail",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "That's what they said" },
+    { "type": "text", "id": "aggregate_text", "label": "Aggregate rating", "default": "4.8" },
+    { "type": "text", "id": "aggregate_suffix", "label": "Aggregate suffix", "default": "from 8,000+ reviews" },
+    { "type": "text", "id": "homes_text", "label": "Homes text", "default": "Loved by" },
+    { "type": "text", "id": "homes_highlight", "label": "Homes highlight", "default": "12 lakh+" },
+    { "type": "text", "id": "homes_suffix", "label": "Homes suffix", "default": "homes" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Works like a charm" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Finally an eco option that cleans as well as the chemical detergent I used for years, and it smells better." },
+        { "type": "text", "id": "author", "label": "Author", "default": "Anita" },
+        { "type": "text", "id": "context", "label": "Context", "default": "Laundry detergent" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Purelane reviews rail" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,42 @@
+<section class="sec" id="how" data-scene="2">
+  <div class="wrap">
+    <div class="pillars">
+      {%- for block in section.blocks -%}
+        <article class="glass pillar rv{% if forloop.index > 1 %} rv-d{{ forloop.index }}{% endif %}" {{ block.shopify_attributes }}>
+          <span class="pi">{% render 'purelane-icon', name: block.settings.icon %}</span>
+          <h3 class="d3">{{ block.settings.title | escape }}</h3>
+          <p class="body-s">{{ block.settings.body | escape }}</p>
+          <a class="btn btn-ghost btn-sm" href="{{ block.settings.link | default: '#shop' }}">{{ block.settings.label | escape }}</a>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane pillars",
+  "tag": "div",
+  "class": "section",
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Less scrubbing" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "A foaming formulation. The foam clings to grease and lifts it, so you wipe instead of scrub." },
+        { "type": "text", "id": "label", "label": "Button label", "default": "Learn more" },
+        { "type": "url", "id": "link", "label": "Button link" },
+        { "type": "select", "id": "icon", "label": "Icon", "default": "bubbles", "options": [
+          { "value": "bubbles", "label": "Bubbles" },
+          { "value": "shield", "label": "Shield" },
+          { "value": "heart", "label": "Heart" }
+        ] }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Purelane pillars" }
+  ]
+}
+{% endschema %}

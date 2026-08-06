@@ -1,0 +1,73 @@
+{%- doc -%}
+  Renders a Purelane product figure using native Shopify media.
+
+  @param {product} product
+  @param {string} [class_name]
+  @param {string} [sizes]
+  @param {string} [widths]
+  @param {boolean} [decorative]
+  @param {string} [loading]
+  @param {string} [extra_attrs]
+{%- enddoc -%}
+{%- liquid
+  assign featured_media = product.featured_media
+  assign preview_image = featured_media.preview_image
+  assign wrapper_class = class_name | default: 'pimg'
+  assign image_sizes = sizes | default: '(min-width: 1024px) 220px, 40vw'
+  assign image_widths = widths | default: '180, 240, 320, 420, 520'
+  assign loading_mode = loading | default: 'lazy'
+  assign media_alt = featured_media.alt | default: product.title
+  assign is_decorative = decorative
+  assign wrapper_attrs = extra_attrs
+  assign fallback_id = product.id | default: 'fallback'
+  assign max_width = 520
+
+  if preview_image != blank and preview_image.width < max_width
+    assign max_width = preview_image.width
+  endif
+-%}
+<span class="{{ wrapper_class }}"{% if is_decorative %} aria-hidden="true"{% else %} role="img" aria-label="{{ media_alt | escape }}"{% endif %}{% if wrapper_attrs != blank %} {{ wrapper_attrs }}{% endif %}>
+  {%- if preview_image != blank -%}
+    {{
+      preview_image
+      | image_url: width: max_width
+      | image_tag:
+        widths: image_widths,
+        sizes: image_sizes,
+        class: 'purelane-figure__img',
+        alt: media_alt,
+        loading: loading_mode
+    }}
+  {%- else -%}
+    <svg class="purelane-figure__fallback" viewBox="0 0 130 200" xmlns="http://www.w3.org/2000/svg" role="presentation" aria-hidden="true">
+      <defs>
+        <linearGradient id="purelane-bottle-{{ fallback_id }}" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#7a67b9"></stop>
+          <stop offset="1" stop-color="#4b3a8f"></stop>
+        </linearGradient>
+        <linearGradient id="purelane-label-{{ fallback_id }}" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.94"></stop>
+          <stop offset="1" stop-color="#ece6f7" stop-opacity="0.88"></stop>
+        </linearGradient>
+      </defs>
+      <ellipse cx="65" cy="190" rx="40" ry="7" fill="#01201c" opacity=".18"></ellipse>
+      <path d="M40 60V48c0-7 5-12 12-12h13c8 0 13 6 13 13v11Z" fill="#d8d1ea"></path>
+      <path d="M65 37c11-1 19 3 25 10 3 4 2 9-2 10l-20 3Z" fill="#e8e2f5"></path>
+      <path d="M14 44h27v9H19c-4 0-6-2-6-4s1-5 1-5Z" fill="#e8e2f5"></path>
+      <rect x="41" y="62" width="36" height="16" rx="4" fill="#dbd3ee"></rect>
+      <path d="M28 96c0-11 6-18 15-24v-8h33v8c9 6 15 13 15 24v62c0 12-8 20-21 20H49c-13 0-21-8-21-20Z" fill="url(#purelane-bottle-{{ fallback_id }})" stroke="rgba(255,255,255,.66)" stroke-width="1.4"></path>
+      <rect x="31" y="112" width="66" height="60" rx="6" fill="url(#purelane-label-{{ fallback_id }})"></rect>
+      <g transform="translate(58 120) scale(.5)" fill="none" stroke="#b8701c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"></path>
+        <path d="M12 21C12 14.5 8.5 10 4 8.5C4 15 7.5 20 12 21Z"></path>
+      </g>
+      <text x="64" y="140" text-anchor="middle" font-family="Outfit, sans-serif" font-size="8.6" font-weight="800" letter-spacing=".7" fill="#241a3d">PURELANE</text>
+      <line x1="42" y1="146" x2="86" y2="146" stroke="#b8701c" stroke-width=".9" opacity=".85"></line>
+      <text x="64" y="156" text-anchor="middle" font-family="Inter, sans-serif" font-size="6.1" font-weight="700" letter-spacing="1.1" fill="#5b4a95">NO MEDIA</text>
+      <text x="64" y="164" text-anchor="middle" font-family="Inter, sans-serif" font-size="6.1" font-weight="700" letter-spacing="1.1" fill="#5b4a95">PRODUCT</text>
+      <text x="64" y="171" text-anchor="middle" font-family="Inter, sans-serif" font-size="4.8" font-weight="600" letter-spacing=".9" fill="rgba(36,26,61,.56)">PURELANE</text>
+      <rect x="36" y="98" width="6" height="72" rx="3" fill="#ffffff" opacity=".3"></rect>
+      <rect x="86" y="102" width="4" height="64" rx="2" fill="#ffffff" opacity=".18"></rect>
+    </svg>
+  {%- endif -%}
+</span>

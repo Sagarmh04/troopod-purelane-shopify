@@ -1,0 +1,122 @@
+{%- doc -%}
+  Renders a Purelane shop product card.
+
+  @param {product} product - The Shopify product to render.
+  @param {string} section_id - The parent section ID.
+  @param {boolean} show_badges - Whether badge rendering is enabled.
+  @param {boolean} show_ratings - Whether rating rendering is enabled.
+  @param {number} [reveal_index] - Zero-based stagger index for reveal animation.
+
+  @example
+  {% render 'purelane-product-card', product: product, section_id: section.id, show_badges: true, show_ratings: true, reveal_index: forloop.index0 %}
+{%- enddoc -%}
+{%- liquid
+  assign selected_variant = product.selected_or_first_available_variant
+  assign badge_label = product.metafields.custom.purelane_badge_label.value | default: ''
+  assign rating_value = product.metafields.custom.purelane_rating.value
+  assign review_count = product.metafields.custom.purelane_review_count.value
+  assign should_show_badge = false
+  assign should_show_rating = false
+  assign product_form_id = 'purelane-product-form-' | append: section_id | append: '-' | append: product.id
+  assign title_id = 'PurelaneProductTitle-' | append: section_id | append: '-' | append: product.id
+  assign media_id_suffix = section_id | append: '-' | append: product.id | handleize
+  assign reveal_delay = reveal_index | modulo: 4 | times: 0.09
+
+  if show_badges and badge_label != blank
+    assign should_show_badge = true
+  endif
+
+  if show_ratings and rating_value != blank
+    assign should_show_rating = true
+  endif
+-%}
+
+<article
+  class="purelane-product-card purelane-reveal"
+  data-purelane-reveal
+  style="--purelane-reveal-delay: {{ reveal_delay }}s;"
+>
+  <div class="purelane-product-card__surface purelane-glass">
+    <div class="purelane-product-card__media-shell">
+      {%- if should_show_badge -%}
+        <p class="purelane-product-card__badge">{{ badge_label | escape }}</p>
+      {%- endif -%}
+      <a href="{{ product.url }}" class="purelane-product-card__media-link" aria-labelledby="{{ title_id }}">
+        {% render 'purelane-product-media', product: product, id_suffix: media_id_suffix %}
+      </a>
+    </div>
+
+    <div class="purelane-product-card__body">
+      <h3 id="{{ title_id }}" class="purelane-product-card__title">
+        <a href="{{ product.url }}" class="purelane-product-card__title-link">
+          {{ product.title | escape }}
+        </a>
+      </h3>
+
+      {%- if should_show_rating -%}
+        <p
+          class="purelane-product-card__rating"
+          aria-label="Rated {{ rating_value }} out of 5{% if review_count != blank %} from {{ review_count }} reviews{% endif %}"
+        >
+          <span class="purelane-product-card__rating-star" aria-hidden="true">&#9733;</span>
+          <span class="purelane-product-card__rating-value" aria-hidden="true">{{ rating_value }}</span>
+          {%- if review_count != blank -%}
+            <span class="purelane-product-card__rating-count" aria-hidden="true">&middot; {{ review_count }} reviews</span>
+          {%- endif -%}
+        </p>
+      {%- else -%}
+        <div class="purelane-product-card__rating purelane-product-card__rating--empty" aria-hidden="true"></div>
+      {%- endif -%}
+
+      <div class="purelane-product-card__footer">
+        {% render 'purelane-price-stack', product: product %}
+
+        {%- if product.available == false or selected_variant == blank or selected_variant.available == false -%}
+          <button
+            type="button"
+            class="purelane-button purelane-button--ghost purelane-button--disabled purelane-product-card__action"
+            disabled
+            aria-disabled="true"
+          >
+            {{ 'products.product.sold_out' | t }}
+          </button>
+        {%- elsif product.variants_count > 1 -%}
+          <a href="{{ product.url }}" class="purelane-button purelane-button--ghost purelane-product-card__action">
+            {{ 'products.product.choose_options' | t }}
+          </a>
+        {%- else -%}
+          <product-form class="purelane-product-card__form" data-section-id="{{ section_id }}">
+            <div class="product-form__error-message-wrapper" role="alert" hidden>
+              <span class="svg-wrapper">
+                {{- 'icon-error.svg' | inline_asset_content -}}
+              </span>
+              <span class="product-form__error-message"></span>
+            </div>
+            {%- form 'product',
+              product,
+              id: product_form_id,
+              class: 'form',
+              novalidate: 'novalidate',
+              data-type: 'add-to-cart-form'
+            -%}
+              <input type="hidden" name="id" value="{{ selected_variant.id }}" class="product-variant-id">
+              <button
+                id="{{ product_form_id }}-submit"
+                type="submit"
+                name="add"
+                class="purelane-button purelane-button--ghost purelane-product-card__action"
+                aria-labelledby="{{ product_form_id }}-submit {{ title_id }}"
+                aria-live="polite"
+                data-sold-out-message="true"
+              >
+                <span>{{ 'products.product.add_to_cart' | t }}</span>
+                <span class="sold-out-message hidden">{{ 'products.product.sold_out' | t }}</span>
+                {%- render 'loading-spinner' -%}
+              </button>
+            {%- endform -%}
+          </product-form>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</article>

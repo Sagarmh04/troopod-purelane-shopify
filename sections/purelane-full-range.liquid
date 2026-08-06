@@ -1,0 +1,39 @@
+{%- assign collection = section.settings.collection -%}
+<section class="sec" id="range" data-scene="3">
+  <div class="wrap">
+    <div class="glass range rv">
+      <div class="range-head">
+        <div>
+          <span class="kicker">{{ section.settings.kicker | escape }}</span>
+          <h2 class="d2" style="margin-top:10px">{{ section.settings.heading | escape }}</h2>
+        </div>
+        <p class="body-s" style="max-width:34ch;margin-bottom:4px">{{ section.settings.body | escape }}</p>
+      </div>
+      <div class="stripwrap">
+        <div class="rangerow">
+          {%- for product in collection.products limit: 10 -%}
+            {% render 'purelane-product-figure', product: product, class_name: 'pimg', sizes: '(min-width: 1024px) 110px, 90px', widths: '120, 180, 240', decorative: true %}
+          {%- endfor -%}
+        </div>
+      </div>
+      <p class="striphint">Swipe to see the full shelf</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane full range",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The full range" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Every room, one shelf" },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Floors, taps, kitchen, laundry, bathroom and hands. Plant-based formulas that replace the harsh bottles under your sink." }
+  ],
+  "presets": [
+    { "name": "Purelane full range" }
+  ]
+}
+{% endschema %}

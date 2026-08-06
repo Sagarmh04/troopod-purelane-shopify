@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+.purelane-shop {
+  --purelane-ink: #f4f0fb;
+  --purelane-deep: #e2daf3;
+  --purelane-brand: #4b3a8f;
+  --purelane-brand-light: #6b55b8;
+  --purelane-paper: #241a3d;
+  --purelane-paper-soft: rgba(36, 26, 61, 0.78);
+  --purelane-paper-faint: rgba(36, 26, 61, 0.56);
+  --purelane-accent: #b8701c;
+  --purelane-accent-secondary: #c9761d;
+  --purelane-surface: #17102b;
+  --purelane-card-radius: 26px;
+  --purelane-card-radius-sm: 14px;
+  --purelane-content-width: 1180px;
+  --purelane-transition-ease: cubic-bezier(.2, .7, .2, 1);
+  color: var(--purelane-paper);
+}
+
+.purelane-content {
+  max-width: var(--purelane-content-width);
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+.purelane-kicker {
+  margin: 0;
+  color: var(--purelane-paper-faint);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.purelane-heading {
+  margin: 12px 0 0;
+  color: var(--purelane-surface);
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: clamp(30px, 4.6vw, 54px);
+  font-weight: 800;
+  letter-spacing: -.018em;
+  line-height: .94;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.purelane-glass {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(75, 58, 143, 0.16);
+  border-radius: var(--purelane-card-radius);
+  background: linear-gradient(
+    158deg,
+    rgba(255, 255, 255, 0.80),
+    rgba(236, 230, 247, 0.56) 58%,
+    rgba(222, 212, 240, 0.50)
+  );
+  box-shadow:
+    0 22px 54px rgba(58, 44, 112, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+}
+
+.purelane-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.55),
+    transparent 32%,
+    transparent 74%,
+    rgba(201, 118, 29, 0.06)
+  );
+}
+
+.purelane-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 38px;
+  width: 100%;
+  padding: 0 18px;
+  border: 1px solid rgba(75, 58, 143, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.66);
+  color: #01423b;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    transform .35s var(--purelane-transition-ease),
+    background-color .35s var(--purelane-transition-ease),
+    border-color .35s var(--purelane-transition-ease),
+    box-shadow .35s var(--purelane-transition-ease);
+}
+
+.purelane-button--ghost:hover,
+.purelane-button--ghost:focus-visible {
+  background: rgba(255, 255, 255, 0.90);
+}
+
+.purelane-button--disabled,
+.purelane-button[disabled],
+.purelane-button[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: .56;
+  transform: none;
+}
+
+.purelane-shop :is(a, button, input):focus-visible {
+  outline: 2px solid var(--purelane-accent);
+  outline-offset: 3px;
+  box-shadow: none;
+}
+
+.purelane-reveal {
+  --purelane-reveal-delay: 0s;
+  --purelane-reveal-visible-transform: translateY(0);
+}
+
+.purelane-shop[data-reveal-ready='true'] .purelane-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  filter: blur(7px);
+  transition:
+    opacity .95s var(--purelane-transition-ease),
+    transform .95s var(--purelane-transition-ease),
+    filter .95s var(--purelane-transition-ease);
+  transition-delay: var(--purelane-reveal-delay);
+}
+
+.purelane-shop[data-reveal-ready='true'] .purelane-reveal.is-visible {
+  opacity: 1;
+  transform: var(--purelane-reveal-visible-transform);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .purelane-shop[data-reveal-ready='true'] .purelane-reveal,
+  .purelane-shop[data-reveal-ready='true'] .purelane-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .purelane-glass {
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+}

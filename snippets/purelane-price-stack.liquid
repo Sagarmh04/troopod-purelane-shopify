@@ -1,0 +1,45 @@
+{%- doc -%}
+  Renders a Purelane product price stack from the selected or first available variant.
+
+  @param {product} product - The Shopify product whose pricing should be rendered.
+
+  @example
+  {% render 'purelane-price-stack', product: product %}
+{%- enddoc -%}
+{%- liquid
+  assign target = product.selected_or_first_available_variant
+  assign current_price = target.price
+  assign compare_at_price = target.compare_at_price
+  assign has_compare_at_price = false
+  assign discount_percentage = 0
+  assign current_money = current_price | money
+  assign compare_money = compare_at_price | money
+
+  if settings.currency_code_enabled
+    assign current_money = current_price | money_with_currency
+    assign compare_money = compare_at_price | money_with_currency
+  endif
+
+  if compare_at_price > current_price
+    assign has_compare_at_price = true
+    assign discount_percentage = compare_at_price | minus: current_price | times: 100.0 | divided_by: compare_at_price | round
+  endif
+-%}
+
+<div class="purelane-price-stack{% if has_compare_at_price %} purelane-price-stack--sale{% endif %}">
+  {%- if has_compare_at_price -%}
+    <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+  {%- else -%}
+    <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+  {%- endif -%}
+  <strong class="purelane-price-stack__current">{{ current_money }}</strong>
+
+  {%- if has_compare_at_price -%}
+    <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+    <s class="purelane-price-stack__compare">{{ compare_money }}</s>
+    <span class="purelane-price-stack__discount">
+      <span class="visually-hidden">Discount:</span>
+      {{ discount_percentage }}% off
+    </span>
+  {%- endif -%}
+</div>
